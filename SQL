@@ -22,6 +22,7 @@ datanascimento  date         not null,
 peso            decimal(5,2) not null,
 altura          decimal(4,2) not null,
 codmodalidade   int          not null,
+telefone        varchar(20)  not null,
 primary key (codigo),
 foreign key (codmodalidade) references modalidade (codigo));
 
@@ -34,13 +35,6 @@ add column telefone numeric(20) not null;
 
 alter table treinador 
 alter column telefone type numeric(15);
-
-alter table treinador 
-drop column telefone;
-
-alter table treinador 
-add column telefone VARCHAR(15) not null;
-
 
 /* INSERT (inserir informações na tabela) */
 
@@ -62,18 +56,15 @@ values (2,'Volei',2);
 insert into modalidade (codigo,nome,codtreinador)
 values (3,'Basquete',3);
 
-insert into atleta (codigo,nome,endereco,cidade,estado,
-telefone,datanascimento,peso,altura,codmodalidade)
+insert into atleta (codigo,nome,endereco,cidade,estado,datanascimento,peso,altura,codmodalidade, telefone)
 values (1,'Cristiano Ronaldo','Arabia Saudita','Dubai','DB',
 123,'01/01/1990',75.00,1.87,1);
 
-insert into atleta (codigo,nome,endereco,cidade,estado,
-telefone,datanascimento,peso,altura,codmodalidade)
+insert into atleta (codigo,nome,endereco,cidade,estado,datanascimento,peso,altura,codmodalidade, telefone)
 values (2,'Giba','Rio de Janeiro','Rio de Janerio','RJ',
 345,'05/05/1980',80.00,1.95,2);
 
-insert into atleta (codigo,nome,endereco,cidade,estado,
-telefone,datanascimento,peso,altura,codmodalidade)
+insert into atleta (codigo,nome,endereco,cidade,estado,datanascimento,peso,altura,codmodalidade, telefone)
 values (3,'Bronny James','Los Angeles','USA','US',
 789,'10/10/2000',85.00,1.91,3);
 
