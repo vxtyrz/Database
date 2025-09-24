@@ -200,3 +200,16 @@ insert into campeonato (codigo, datainscricao, valor, codatleta, codmodalidade)
 values (4, '04/09/2025', 170.00, 1, 88);
 
 select * from campeonato;
+
+/* funções agregação */
+/* somar coluna VALOR */
+select sum(valor) from campeonato;
+
+select count(codigo) from campeonato;
+
+/*média*/
+select avg(valor) from campeonato;
+
+/*verificar > < */
+select max(valor) from campeonato;
+select min(valor) from campeonato;
