@@ -1,3 +1,4 @@
+
 /*comentario: criar a estrutura do banco dados  */
 DROP TABLE IF EXISTS treinador;
 DROP TABLE IF EXISTS modalidade;
@@ -213,3 +214,28 @@ select avg(valor) from campeonato;
 /*verificar > < */
 select max(valor) from campeonato;
 select min(valor) from campeonato;
+
+/* atribuir apelidos para tabelas 
+select a.CODIGOCLIENTE, a.CODVENDA, b.NOMECLIENTE
+EVITA QUE O COMANDO FIQUE EXTENSO
+USAR O APELIDO APÓS O NOME DA TABELA NA CLAUSULA FROM */
+
+/* AULA 10 - pesquisar multiplas tabelas */
+1) Pesquisar nomes atletas e nomes das suas modalidades
+select atleta.nome, modalidade.nome
+from atleta, modalidade
+where atleta.comodidade = modalidade.codigo;
+
+2) Pesquisar nomes modalidades e nomes dos seus treinadores
+select modalidade.nome, treinador.nome
+from modalidade, treinador
+where modalidade.codtreinador = treinador.codigo;
+
+3) Pesquisar datainscricao e valor campeonato, nome atleta e nome modalidade;
+
+select campeonato.datainscricao, campeonato.valor, atleta.nome, modalidade.nome
+from campeonato, atleta, modalidade
+where campeonato.codatleta = atleta.codigo
+and campeonato.codmodalidade = modalidade.codigo;
+
+/* LISTA EXERCICIOS */

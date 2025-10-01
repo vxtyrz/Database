@@ -1,0 +1,102 @@
+/* criando a estrutura*/
+
+create table treinador(
+codigo int not null,
+nome varchar(50) not null,
+primary key (codigo)
+);
+
+create table modalidade (
+codigo int not null,
+nome varchar(50) not null,
+codtreinador int not null,
+primary key (codigo),
+foreign key (codtreinador) references treinador (codigo)
+);
+
+create table atleta(
+codigo int not null,
+nome varchar(50) not null,
+endereco varchar(50) not null,
+cidade varchar(50) not null,
+estado char(2) not null,
+datanascimento date not null,
+peso decimal(5,2) not null,
+altura decimal(4,2) not null,
+codmodalidade int not null,
+primary key (codigo),
+foreign key (codmodalidade) references modalidade (codigo)
+);
+
+/*alterar estrutura da tabela
+ADD (adicionar) alter (modificar) drop (remover)
+*/
+
+alter table treinador 
+add column telefone numeric(20) not null;
+
+alter table treinador
+alter column telefone type numeric(15);
+
+alter table treinador
+drop column fone
+
+
+/* insert (inserir informaçoes na tabela) */
+
+insert into treinador (codigo,nome,telefone)
+values (1,'filipe luis',123);
+
+insert into treinador (codigo,nome,telefone)
+values (2,'jose mourinho',123);
+
+insert into treinador (codigo,nome,telefone)
+values (3,'diniz',123);
+
+
+insert into modalidade (codigo,nome,codtreinador)
+values (1,'futebol',1);
+
+insert into modalidade (codigo,nome,codtreinador)
+values (2,'futebol',2);
+
+insert into modalidade (codigo,nome,codtreinador)
+values (3,'futebol',3);
+
+
+insert into atleta (codigo,nome,endereco,cidade,estado,datanascimento,peso,altura,codmodalidade)
+values (1,'Cristiano Ronaldo','Arabia saudita','Riad','AS','05/02/1985',83.00,'1.87',1),
+(2,'Ronaldo Nazario','Brasil','Sao Paulo','SP','05/02/1972',120.00,'1.83',1),
+(3,'Lionel Messi','EUA','Miami','RD','03/05/1987',67.00,'1.67',1),
+(4,'Joao Felix','Arabia saudita','dubai','AS','11/09/2001',70.00,'1.76',1);
+
+select * from atleta
+where codigo between 1 and 3
+
+
+create table campeonato(
+codigo int not null,
+datainscricao date not null,
+valor decimal(6,2) not null,
+codatleta int not null,
+codmodalidade int not null,
+primary key (codigo),
+foreign key (codatleta) references atleta (codigo),
+foreign key (codmodalidade) references modalidade (codigo)
+);
+
+insert into campeonato (codigo,datainscricao,valor,codatleta,codmodalidade)
+values (1,'01/09/2025',150.00,1,1),
+(2,'05/09/2025',150.00,4,1),
+(3,'10/09/2025',150.00,2,2),
+(4,'10/09/2025',200.00,3,2);
+
+/* funçoes de agregaçao SUM  COUNT AVG MAX MIN */
+
+select sum(valor) from campeonato;
+
+select count (codigo) from campeonato;
+
+select avg (valor) from campeonato;
+
+select max (valor) from campeonato;
