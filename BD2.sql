@@ -162,3 +162,47 @@ INSERT INTO campeonato (codigo, datainscricao, valor, codatleta, codmodalidade)
 VALUES (5, '29/12/2006', 450.00, 5, 2); 
 
 SELECT * FROM campeonato;
+
+/* 6) novo valor campeonato */
+UPDATE campeonato
+SET valor = 600.00
+WHERE codigo = 5
+
+SELECT * FROM campeonato;
+
+
+/* 8) adicionar campo premiação */
+ALTER TABLE campeonato
+ADD COLUMN premiacao decimal(6,2);
+SELECT * FROM campeonato;
+
+UPDATE campeonato
+SET premiacao = valor * 0.75; /* colocar o valor numerico */
+SELECT * FROM campeonato
+
+UPDATE campeonato
+SET premiacao = 1000.00
+WHERE codigo = 5
+SELECT * FROM campeonato
+
+
+/* 9) modalide -> tenis de mesa */
+UPDATE modalidade
+SET nome = 'Tênis de Mesa'
+WHERE codigo = 7
+SELECT * FROM modalidade;
+
+
+/* 10) aumentar valor de inscrição */
+UPDATE campeonato
+SET valor = valor * 1.2
+WHERE codmodalidade = 2
+SELECT * FROM campeonato;
+
+
+/* 11) Listar todos os atletas do basquete */
+SELECT atleta.nome, modalidade.nome FROM atleta, modalidade WHERE atleta.codmodalidade = modalidade.codigo AND modalidade.nome = 'futebol';
+
+
+/* 12) listar atletas e premiações do futebol */
+SELECT atleta.nome, premiacao.campeonato FROM atleta, campeonato, modalidade WHERE atleta.codmodalidade = campeonato.codmodalidade AND modalidade.nome = 'futebol';
