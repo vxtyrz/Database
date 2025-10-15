@@ -1,2 +1,3 @@
 # Database
-Banco de dados 2o semestre
+Banco de dados 2o semestre POSTGRESQL
+
