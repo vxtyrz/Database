@@ -92,3 +92,28 @@ WHERE combustivel = 'Gasolina'
 SELECT placa, ano, valor, combustivel FROM automovel
 WHERE combustivel = 'Diesel' 
 AND valor >= 80000.00;
+
+/* h) mostrar modelos que possuem ou nao possuem automovel (RIGHT JOIN) */
+SELECT modelo.nome, automovel.placa, automovel.valor
+FROM modelo
+RIGHT JOIN automovel ON automovel.codmodelo = modelo.codigo;
+
+/* I) mostrar automoveis com respectivas marcas e modelos */
+SELECT marca.nome, modelo.nome, automovel.placa, automovel.valor
+FROM automovel
+INNER JOIN marca ON automovel.codmarca = marca.codigo
+INNER JOIN modelo ON automovel.codmodelo = modelo.codigo
+
+/* J) mostrar automoveis com respectivas marcas e modelos fabricados no ano 2020 (inner) */
+SELECT marca.nome, modelo.nome, automovel.placa, automovel.valor
+FROM automovel
+INNER JOIN marca ON automovel.codmarca = marca.codigo
+INNER JOIN modelo ON automovel.codmodelo = modelo.codigo
+WHERE automovel.ano = 2020;
+
+/* K) mostrar soma total do valor dos automoveis agrupados por marcas (INNER) */
+SELECT marca.nome SUM(automovel.valor)
+FROM automovel
+INNER JOIN marca ON automovel.codmarca = marca.codigo
+INNER JOIN modelo ON automovel.codmodelo = modelo.codigo
+WHERE automovel.ano = 2020;
