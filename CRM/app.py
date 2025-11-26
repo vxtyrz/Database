@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import psycopg2
@@ -10,8 +11,8 @@ def init_connection():
     return psycopg2.connect(
         host="localhost",
         database="postgres",  # Mude para o nome do seu banco
-        user="postgres",      # Seu usuário
-        password="123"        # Sua senha (ATENÇÃO: MUDE AQUI)
+        user="postgres",      # Seu usuario
+        password="123456"        # Sua senha (ATENCAO: MUDE AQUI)
     )
 
 conn = init_connection()
@@ -21,7 +22,7 @@ def ler_tabela(nome_tabela):
     query = f"SELECT * FROM {nome_tabela};"
     return pd.read_sql(query, conn)
 
-# executar inserção (CREATE)
+# executar insercao (CREATE)
 def executar_insert(query, dados):
     try:
         cur = conn.cursor()
@@ -29,7 +30,7 @@ def executar_insert(query, dados):
         conn.commit()
         cur.close()
         st.success("Registro inserido com sucesso!")
-        st.rerun() # Recarrega a página para mostrar o dado novo
+        st.rerun() # Recarrega a pagina para mostrar o dado novo
     except Exception as e:
         conn.rollback()
         st.error(f"Erro ao inserir: {e}")
@@ -37,7 +38,7 @@ def executar_insert(query, dados):
 # pegar listas de IDs (para preencher Dropdowns de Foreign Keys)
 def get_opcoes(tabela, coluna_id, coluna_nome):
     df = ler_tabela(tabela)
-    # Cria um dicionário: {1: '1 - João', 2: '2 - Maria'}
+    # Cria um dicionario: {1: '1 - Joao', 2: '2 - Maria'}
     return {row[coluna_id]: f"{row[coluna_id]} - {row[coluna_nome]}" for index, row in df.iterrows()}
 
 
@@ -53,7 +54,7 @@ menu = st.sidebar.selectbox(
 st.header(f"Gerenciar: {menu}")
 tab1, tab2 = st.tabs(["🔍 Visualizar Dados", "➕ Adicionar Novo"])
 
-# MÓDULO CLIENTE
+# MODULO CLIENTE
 if menu == "Clientes":
     with tab1:
         st.dataframe(ler_tabela("cliente"), use_container_width=True)
@@ -71,7 +72,7 @@ if menu == "Clientes":
                 query = "INSERT INTO cliente (id_cliente, cpf_cnpj, telefone, nome, endereco) VALUES (%s, %s, %s, %s, %s)"
                 executar_insert(query, (c_id, c_cpf, c_tel, c_nome, c_end))
 
-# MÓDULO FUNCIONÁRIO
+# MODULO FUNCIONARIO
 elif menu == "Funcionários":
     with tab1:
         st.dataframe(ler_tabela("funcionario"), use_container_width=True)
@@ -86,7 +87,7 @@ elif menu == "Funcionários":
                 query = "INSERT INTO funcionario (id_funcionario, cpf, matricula) VALUES (%s, %s, %s)"
                 executar_insert(query, (f_id, f_cpf, f_mat))
 
-# MÓDULO PRODUTO
+# MODULO PRODUTO
 elif menu == "Produtos":
     with tab1:
         st.dataframe(ler_tabela("produto"), use_container_width=True)
@@ -102,7 +103,7 @@ elif menu == "Produtos":
                 query = "INSERT INTO produto (id_produto, nome, estoque, preco) VALUES (%s, %s, %s, %s)"
                 executar_insert(query, (p_id, p_nome, p_est, p_preco))
 
-# MÓDULO PEDIDO
+# MODULO PEDIDO
 elif menu == "Pedidos":
     with tab1:
         st.subheader("Pedidos Realizados")
@@ -126,7 +127,7 @@ elif menu == "Pedidos":
                 query = "INSERT INTO pedido (id_pedido, dataemissao, valor_total, status, id_cliente) VALUES (%s, %s, %s, %s, %s)"
                 executar_insert(query, (ped_id, ped_data, ped_valor, ped_status, cliente_selecionado))
 
-# MÓDULO ATENDIMENTO
+# MODULO ATENDIMENTO
 elif menu == "Atendimentos":
     with tab1:
         st.dataframe(ler_tabela("atendimento"), use_container_width=True)
@@ -146,13 +147,13 @@ elif menu == "Atendimentos":
                 query = "INSERT INTO atendimento (id_atendimento, data_atend, id_funcionario, id_cliente) VALUES (%s, %s, %s, %s)"
                 executar_insert(query, (at_id, at_data, sel_func, sel_cli))
 
-# MÓDULO GENÉRICO 
+# MODULO GENÉRICO 
 else:
     # Exibe qualquer outra tabela selecionada de forma simples
     tabela_atual = "fornecedor" if menu == "Fornecedores" else menu.lower()
     st.dataframe(ler_tabela(tabela_atual), use_container_width=True)
     st.warning("Formulário de cadastro específico ainda não implementado para este módulo.")
 
-# RODAPÉ
+# RODAPE
 st.markdown("---")
 st.caption("Desenvolvido para aula de Engenharia de Software - Integração Python/PostgreSQL")
